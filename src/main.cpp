@@ -1,35 +1,43 @@
 #include <mbed.h>
 #include <rtos.h>
 #include <mbed_events.h>
+#include "components.h"
 
-DigitalOut red(LED1,1);
+AssignmentBoard board;
 
-void flash(void)
+LED redLED(board.K64F_RED_LED);
+LED greenLED(board.SHIELD_GREEN_LED);
+
+void flashRed(void)
 {
-    red = !red;
+    redLED.toggle();
 }
 
-DigitalOut green(LED2,1);
-
-void blink(void)
+void flashGreen(void)
 {
-    green = !green;
+    greenLED.toggle();
 }
 
 Serial pc(USBTX, USBRX);
 Thread worker;
-EventQueue queue ;
+EventQueue queue;
 
 Thread thread;
 
 int main()
 {
     pc.printf("ready");
-    queue.call_every(500, flash);
-    queue.call_every(300, blink);
+
+    queue.call_every(500, flashRed);
+    queue.call_every(500, flashGreen);
+
     pc.printf("dispatching...");
-    queue.dispatch_forever();
-    //worker.start(callback(&queue, &EventQueue::dispatch_forever ));
+
+    //queue.dispatch_forever();
+
+    worker.start(callback(&queue, &EventQueue::dispatch_forever ));
+
     pc.printf("dispatched");
+
     while(1){}
 }

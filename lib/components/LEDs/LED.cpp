@@ -20,3 +20,8 @@ void LED::off()
 {
     digitalOut.write(1);
 }
+
+void LED::toggle()
+{
+    digitalOut = !digitalOut;
+}

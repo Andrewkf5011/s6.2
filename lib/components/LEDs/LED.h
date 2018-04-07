@@ -6,8 +6,8 @@
 /**
  * @brief Describes an LED component.
  *
- * Version: 1.3
- * Date: 23/03/2018
+ * Version: 1.4
+ * Date: 07/04/2018
  * Originally Created: 21/03/2018
  */
 class LED
@@ -40,6 +40,11 @@ class LED
          * Turns the LED off.
          */
         void off();
+
+        /**
+         * Toggles the state of the LED.
+         */
+        void toggle();
 };
 
 #endif // LED_H
